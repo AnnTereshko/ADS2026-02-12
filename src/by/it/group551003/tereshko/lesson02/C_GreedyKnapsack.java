@@ -26,6 +26,36 @@ public class C_GreedyKnapsack {
         System.out.printf("Общая стоимость %f (время %d)", costFinal, finishTime - startTime);
     }
 
+    void sortItems(Item[] items, int low, int high) {
+        if (low < high) {
+            int pivotIndex;
+            pivotIndex = partition(items, low, high);
+            sortItems(items, low, pivotIndex - 1);
+            sortItems(items, pivotIndex + 1, high);
+        }
+    }
+
+    int partition(Item[] items, int low, int high) {
+        int pivot, left;
+        Item temp;
+
+        pivot = items[high].cost / items[high].weight;
+        left = low - 1;
+
+        for (int i = low; i < high; i++) {
+            if (items[i].cost / items[i].weight >= pivot) {
+                left++;
+                temp = items[left];
+                items[left] = items[i];
+                items[i] = temp;
+            }
+        }
+        temp = items[left + 1];
+        items[left + 1] = items[high];
+        items[high] = temp;
+        return left + 1;
+    }
+
     double calc(InputStream inputStream) throws FileNotFoundException {
         Scanner input = new Scanner(inputStream);
         int n = input.nextInt();      //сколько предметов в файле
@@ -41,18 +71,30 @@ public class C_GreedyKnapsack {
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n", n, W);
 
         //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //итогом является максимально возможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
-        double result = 0;
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
-
         //ваше решение.
+        double sum = 0;
+        int remainder, i;
+        remainder = W;
+        i = 0;
+        sortItems(items, 0, items.length - 1);
+        while (remainder > 0 && i < items.length) {
+            if (remainder <= items[i].weight) {
+                sum += items[i].cost / items[i].weight * remainder;
+                remainder = 0;
+            } else {
+                sum += items[i].cost;
+                remainder -= items[i].weight;
+            }
+            i++;
+        }
 
-
-        System.out.printf("Удалось собрать рюкзак на сумму %f\n", result);
-        return result;
+        System.out.printf("Удалось собрать рюкзак на сумму %f\n", sum);
+        return sum;
     }
 
     private static class Item implements Comparable<Item> {
@@ -67,9 +109,9 @@ public class C_GreedyKnapsack {
         @Override
         public String toString() {
             return "Item{" +
-                   "cost=" + cost +
-                   ", weight=" + weight +
-                   '}';
+                    "cost=" + cost +
+                    ", weight=" + weight +
+                    '}';
         }
 
         @Override
