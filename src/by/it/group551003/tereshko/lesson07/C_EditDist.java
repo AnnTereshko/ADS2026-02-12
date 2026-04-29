@@ -50,11 +50,60 @@ public class C_EditDist {
 
     String getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        StringBuilder result = new StringBuilder();
+        int[][] matrix = new int[one.length() + 1][two.length() + 1];
+        matrix[0][0] = 0;
+        for (int j = 1; j <= two.length(); j++)
+            matrix[0][j] = j;
+        for (int i = 1; i <= one.length(); i++)
+            matrix[i][0] = i;
+        for (int i = 1; i <= one.length(); i++)
+            for (int j = 1; j <= two.length(); j++)
+                if (one.charAt(i - 1) != two.charAt(j - 1))
+                    matrix[i][j] = 1 + min(matrix[i - 1][j], matrix[i][j - 1], matrix[i - 1][j - 1]);
+                else
+                    matrix[i][j] = matrix[i - 1][j - 1];
+        int i = one.length();
+        int j = two.length();
+        while (i > 0 || j > 0) {
+            char c1, c2;
+            if (i > 0)
+                c1 = one.charAt(i - 1);
+            else c1 = 0;
 
-
-        String result = "";
+            if (j > 0)
+                c2 = two.charAt(j - 1);
+            else c2 = 0;
+            if (i > 0 && j > 0 && c1 == c2 && matrix[i][j] == matrix[i - 1][j - 1]) {
+                result.append(",");
+                result.append("#");
+                i--;
+                j--;
+            } else if (i > 0 && j > 0 && matrix[i][j] == matrix[i - 1][j - 1] + 1) {
+                result.append("~");
+                result.append(c2); // Символ, на который заменили (из второй строки)
+                result.append(",");
+                i--;
+                j--;
+            } else if (i > 0 && matrix[i][j] == matrix[i - 1][j] + 1) {
+                result.append("-");
+                result.append(c1);
+                result.append(",");
+                i--;
+            } else if (j > 0 && matrix[i][j] == matrix[i][j - 1] + 1) {
+                result.append("+");
+                result.append(c2); // Вставляемый символ
+                result.append(",");
+                j--;
+            }
+        }
+        result.reverse();
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return result.toString();
+    }
+
+    int min(int a, int b, int c) {
+        return Math.min(Math.min(a, b), c);
     }
 
 
@@ -62,9 +111,9 @@ public class C_EditDist {
         InputStream stream = C_EditDist.class.getResourceAsStream("dataABC.txt");
         C_EditDist instance = new C_EditDist();
         Scanner scanner = new Scanner(stream);
-        System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
-        System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
-        System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));
+        System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
+        System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
+        System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
     }
 
 }

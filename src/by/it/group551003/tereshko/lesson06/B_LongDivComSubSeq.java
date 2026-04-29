@@ -2,6 +2,7 @@ package by.it.group551003.tereshko.lesson06;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -49,7 +50,17 @@ public class B_LongDivComSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
+        int result = 1;
+        int[] endSub = new int[n];
+        Arrays.fill(endSub, 1);
+        for (int i = 1; i < n; i++)
+            for (int j = 0; j < i; j++)
+                if (m[i] % m[j] == 0)
+                    if (endSub[j] + 1 > endSub[i])
+                        endSub[i] = endSub[j] + 1;
+        for (int i = 0; i < n; i++)
+            if (result < endSub[i])
+                result = endSub[i];
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
