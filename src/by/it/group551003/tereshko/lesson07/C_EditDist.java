@@ -81,7 +81,7 @@ public class C_EditDist {
                 j--;
             } else if (i > 0 && j > 0 && matrix[i][j] == matrix[i - 1][j - 1] + 1) {
                 result.append("~");
-                result.append(c2); // Символ, на который заменили (из второй строки)
+                result.append(c2);
                 result.append(",");
                 i--;
                 j--;
@@ -92,7 +92,7 @@ public class C_EditDist {
                 i--;
             } else if (j > 0 && matrix[i][j] == matrix[i][j - 1] + 1) {
                 result.append("+");
-                result.append(c2); // Вставляемый символ
+                result.append(c2);
                 result.append(",");
                 j--;
             }
