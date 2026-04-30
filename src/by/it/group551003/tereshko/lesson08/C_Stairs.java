@@ -41,14 +41,17 @@ public class C_Stairs {
             stairs[i] = scanner.nextInt();
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int result = 0;
-        for (int i = 0; i < n; i++)
-            if (stairs[i] > 0)
-                result += stairs[i];
+        int[] sums = new int[n + 1];
+        sums[0] = 0;
+        if (n >= 1)
+            sums[1] = sums[0] + stairs[0];
 
-
+        for (int i = 2; i <= n; i++) {
+            // Можно прийти с предыдущей (i-1) или через одну (i-2)
+            sums[i] = Math.max(sums[i - 1], sums[i - 2]) + stairs[i - 1];
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return sums[n];
     }
 
 

@@ -2,6 +2,7 @@ package by.it.group551003.tereshko.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -45,15 +46,15 @@ public class A_Knapsack {
             gold[i] = scanner.nextInt();
         }
         int result = 0;
-        for (int i = n - 1; i > -1; i--)
-            while (w > gold[i]) {
-                w -= gold[i];
-                result += gold[i];
-            }
+        int[] capacity = new int[w + 1];
+        Arrays.fill(capacity, 0);
+        for (int i = 1; i < w + 1; i++)
+            for (int j = 0; j < n; j++)
+                if (gold[j] <= i)
+                    capacity[i] = Math.max(capacity[i], capacity[i - gold[j]] + gold[j]);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return capacity[w];
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_Knapsack.class.getResourceAsStream("dataA.txt");

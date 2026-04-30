@@ -2,6 +2,7 @@ package by.it.group551003.tereshko.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -33,17 +34,19 @@ public class B_Knapsack {
         int w = scanner.nextInt();
         int n = scanner.nextInt();
         int result = 0;
-        int gold[] = new int[n];
+        int[] gold = new int[n];
         for (int i = 0; i < n; i++) {
             gold[i] = scanner.nextInt();
         }
-        for (int i = n - 1; i > -1; i--)
-            if (w > gold[i]) {
-                w -= gold[i];
-                result += gold[i];
-            }
+        int[] capacity = new int[w + 1];
+        for (int i = 0; i < n; i++) {
+            int weight = gold[i];
+            for (int j = w; j >= weight; j--)
+                if (capacity[j - weight] + weight > capacity[j])
+                    capacity[j] = capacity[j - weight] + weight;
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return capacity[w];
     }
 
 
