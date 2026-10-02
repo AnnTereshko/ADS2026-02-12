@@ -19,9 +19,9 @@ public class ListC<E> implements List<E> {
         }
     }
 
-    private Node<E> head; // Первый элемент
-    private Node<E> tail; // Последний элемент (для быстрого добавления в конец)
-    private int size;     // Количество элементов
+    private Node<E> head;
+    private Node<E> tail;
+    private int size;
 
     public ListC() {
         head = null;
