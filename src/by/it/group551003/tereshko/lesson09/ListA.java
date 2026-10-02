@@ -9,78 +9,146 @@ public class ListA<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
+    private Object[] elements;
+    private int size;
+    private static final int DEFAULT_CAPACITY = 10;
+
+    public ListA() {
+        elements = new Object[DEFAULT_CAPACITY];
+        size = 0;
+    }
+
+    private void ensureCapacity() {
+        if (size == elements.length) {
+            int newCapacity = elements.length * 2;
+            if (newCapacity == 0)
+                newCapacity = 1;
+            Object[] newElements = new Object[newCapacity];
+            for (int i = 0; i < size; i++)
+                newElements[i] = elements[i];
+            elements = newElements;
+        }
+    }
+
+    /// //////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
+    /// ///               Обязательные к реализации методы             ///////
+    /// //////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-
-        return "";
+        if (size != 0) {
+            StringBuilder result = new StringBuilder("[");
+            for (int i = 0; i < size; i++) {
+                result.append(elements[i]);
+                if (i < size - 1)
+                    result.append(", ");
+            }
+            result.append("]");
+            return result.toString();
+        } else return "[]";
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        ensureCapacity();
+        elements[size] = e;
+        size++;
+        return true;
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        if (index < 0 || index > size)
+            throw new IndexOutOfBoundsException("");
+        else {
+            E oldValue = (E) elements[index];
+            for (int i = index; i < size - 1; i++)
+                elements[i] = elements[i + 1];
+            elements[size - 1] = null;
+            size--;
+            return oldValue;
+        }
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Опциональные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
+    /// ///               Опциональные к реализации методы             ///////
+    /// //////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
 
     @Override
     public void add(int index, E element) {
-
+        if (index < 0 || index > size)
+            throw new IndexOutOfBoundsException("");
+        ensureCapacity();
+        for (int i = size; i > index; i--)
+            elements[i] = elements[i - 1];
+        elements[index] = element;
+        size++;
     }
 
     @Override
     public boolean remove(Object o) {
+        int index = indexOf(o);
+        if (index >= 0) {
+            remove(index);
+            return true;
+        }
         return false;
     }
 
     @Override
     public E set(int index, E element) {
-        return null;
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("");
+        E oldValue = (E) elements[index];
+        elements[index] = element;
+        return oldValue;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size; i++)
+            elements[i] = null;
+        size = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        if (o == null) {
+            for (int i = 0; i < size; i++)
+                if (elements[i] == null)
+                    return i;
+        } else
+            for (int i = 0; i < size; i++)
+                if (o.equals(elements[i]))
+                    return i;
+        return -1;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        if (index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("");
+        return (E) elements[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return indexOf(0) >= 0;
     }
 
     @Override
@@ -139,12 +207,12 @@ public class ListA<E> implements List<E> {
         return new Object[0];
     }
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    ////////        Эти методы имплементировать необязательно    ////////////
-    ////////        но они будут нужны для корректной отладки    ////////////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
+    /// /////        Эти методы имплементировать необязательно    ////////////
+    /// /////        но они будут нужны для корректной отладки    ////////////
+    /// //////////////////////////////////////////////////////////////////////
+    /// //////////////////////////////////////////////////////////////////////
     @Override
     public Iterator<E> iterator() {
         return null;
