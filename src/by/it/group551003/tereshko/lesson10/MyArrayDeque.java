@@ -71,7 +71,7 @@ public class MyArrayDeque<E> implements Deque<E> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
@@ -118,9 +118,8 @@ public class MyArrayDeque<E> implements Deque<E> {
     @Override
     public void addLast(E element) {
         if (element == null) throw new NullPointerException("Null elements are not allowed!!!");
-        if (size == capacity) {
+        if (size == capacity)
             resize();
-        }
         elements[tail] = element;
         tail = (tail + 1) % capacity;
         size++;
