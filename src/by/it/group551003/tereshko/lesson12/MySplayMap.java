@@ -3,7 +3,6 @@ package by.it.group551003.tereshko.lesson12;
 import java.util.*;
 
 public class MySplayMap implements NavigableMap<Integer, String> {
-//                toString()
 
     private static class Node {
         Integer key;
@@ -307,9 +306,8 @@ public class MySplayMap implements NavigableMap<Integer, String> {
             result.put(node.key, node.value);
             collectTail(node.left, fromKey, inclusive, result);
             collectTail(node.right, fromKey, inclusive, result);
-        } else {
+        } else
             collectTail(node.right, fromKey, inclusive, result);
-        }
     }
 
     @Override

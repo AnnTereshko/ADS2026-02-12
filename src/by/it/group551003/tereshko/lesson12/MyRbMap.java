@@ -3,8 +3,6 @@ package by.it.group551003.tereshko.lesson12;
 import java.util.*;
 
 public class MyRbMap implements SortedMap<Integer, String> {
-//    headMap(Integer)
-//    tailMap(Integer)
 
     private static final boolean RED = true;
     private static final boolean BLACK = false;

@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MyTreeSet<E> implements Set<E> {
-    ///                 removeAll(Collection)
-    ///                 retainAll(Collection)
 
     private Object[] array;
     private int size;

@@ -42,9 +42,7 @@ public class MyAvlMap implements Map<Integer, String> {
     }
 
     private void updateHeight(Node node) {
-        if (node != null) {
-            node.height = 1 + Math.max(height(node.left), height(node.right));
-        }
+        if (node != null) node.height = 1 + Math.max(height(node.left), height(node.right));
     }
 
     private Node rotateRight(Node y) {
@@ -116,10 +114,7 @@ public class MyAvlMap implements Map<Integer, String> {
             size--;
             if (node.left == null || node.right == null) {
                 Node temp = (node.left != null) ? node.left : node.right;
-                if (temp == null)
-                    return null;
-                else
-                    return temp;
+                return temp;
             } else {
                 Node successor = findMinNode(node.right);
                 node.key = successor.key;

@@ -55,8 +55,8 @@ public class MyHashSet<E> implements Set<E> {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         boolean first = true;
-        for (int i = 0; i < table.length; i++) {
-            Node<E> current = table[i];
+        for (Node<E> eNode : table) {
+            Node<E> current = eNode;
             while (current != null) {
                 if (!first)
                     sb.append(", ");
